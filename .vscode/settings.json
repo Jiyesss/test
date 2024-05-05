@@ -1,0 +1,21 @@
+{
+    "files.associations": {
+        "readline.h": "c",
+        "history.h": "c",
+        "stdio.h": "c",
+        "fcntl.h": "c",
+        "mman.h": "c",
+        "array": "c",
+        "string_view": "c",
+        "initializer_list": "c",
+        "utility": "c",
+        "constant.h": "c",
+        "ctype.h": "c",
+        "input.h": "c",
+        "stat.h": "c",
+        "helper.h": "c",
+        "wait.h": "c",
+        "random": "c",
+        "ioctl.h": "c"
+    }
+}
