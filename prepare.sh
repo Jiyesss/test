@@ -52,5 +52,9 @@ echo "\"$distro\" not supported, install manually."
 echo
 
 # sh -c 'while :; do printf "1 "; sleep 1; done'
+
 // 디렉토리 내 파일 개수 출력
 # sh -c 'while :; do ls | wc -l; sleep 2; done' 
+
+// CPU 사용량 출력
+# sh -c 'while :; do mpstat 1 1; done'

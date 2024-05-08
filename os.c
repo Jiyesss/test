@@ -30,8 +30,8 @@ void init_tui() {
 int main() {
     init_tui();
 
-    system_d("echo 'Mini OS' | pv -qL 15");
-    system_d("echo 'Booting up:' | pv -qL 15");
+    system_d("echo 'Mini OS입니다.' | pv -qL 15");
+    system_d("echo 'Booting up~' | pv -qL 15");
     system_d("echo '###################' | pv -qL 15");
     system_d("tmux attach");
     return 0;
