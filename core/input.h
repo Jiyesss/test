@@ -4,14 +4,14 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-void handle_sigint(int sig) {
+void handle_sigint(int sig) { // ctrl-c에 의해 발생한 SIGINT 시그널을 처리하는 함수. 프롬프트 초기화하고 다시 표기함 
     printf("\nCtrl-C pressed. Press 'Ctrl-D' to quit.\n");
     rl_on_new_line();
     rl_replace_line("", 0);
     rl_redisplay();
 }
 
-void os_input(struct shm_info *INPUT) {
+void os_input(struct shm_info *INPUT) { // 사용자의 입력을 처리하는 메인 함수. 공유 메모리에 대한 세마포어를 사용하여, 공유 메모리에 접근하기 전에 세마포어를 통해 동기화를 수행 
     sem_t *input_sem = INPUT->lock.sem;
     char *INPUT_BUF = INPUT->data;
     char *input, *token;

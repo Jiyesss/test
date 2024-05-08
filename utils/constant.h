@@ -20,7 +20,7 @@
 #define TASK_ZOMBIE             4
 #define TASK_STOPPED            8
 
-const char *task_status_str[] = {
+const char *task_status_str[] = { 
     [TASK_RUNNABLE] = "RUNNABLE",
     [TASK_RUNNING] = "RUNNING",
     [TASK_BLOCKED] = "BLOCKED",

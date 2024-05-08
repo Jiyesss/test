@@ -3,24 +3,24 @@
 install_packages() {
     case $1 in
         "ubuntu" | "debian")
-            apt-get install $OPT tmux pv reptyr
+            apt-get install $OPT tmux pv reptyr sysstat
             exit
             ;;
         "fedora")
-            dnf install $OPT tmux pv reptyr
+            dnf install $OPT tmux pv reptyr sysstat
             exit
             ;;
         "rhel" | "centos")
             rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-            yum install $OPT tmux pv reptyr
+            yum install $OPT tmux pv reptyr sysstat
             exit
             ;;
         "arch" | "manjaro")
-            pacman $OPT -S tmux pv reptyr
+            pacman $OPT -S tmux pv reptyr sysstat
             exit
             ;;
         "alpine")
-            apk add $OPT tmux pv reptyr
+            apk add $OPT tmux pv reptyr sysstat
             exit
             ;;
     esac
@@ -52,3 +52,5 @@ echo "\"$distro\" not supported, install manually."
 echo
 
 # sh -c 'while :; do printf "1 "; sleep 1; done'
+// 디렉토리 내 파일 개수 출력
+# sh -c 'while :; do ls | wc -l; sleep 2; done' 

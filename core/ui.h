@@ -7,14 +7,14 @@
 #define PANE_INPUT_Y 12
 #define PANE_STATUS_Y 5
 
-int count_panes() {
+int count_panes() { //세션에 있는 tmux 패널의 수를 반환
     int cnt;
 
     shell("tmux list-panes -t MiniOS:0 | wc -l", "%d", &cnt);
     return cnt;
 }
 
-void reptyr_proc(pid_t pid) {
+void reptyr_proc(pid_t pid) { //특정 프로세스를 tmux패널로 이동시키는 기능 수행
     int pos, count = count_panes();
     if (count < 3)
         pos = 0;
