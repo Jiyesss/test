@@ -49,6 +49,8 @@ void iterate_ptable(struct proc_table *ptable) {
         for (int i = 0; i < ptable->proc_cnt; i++) {
             struct task_struct *p = &(ptable->proc[i]);
             printf("PID: %d, %s\n", p->pid, task_status_str[p->state]);
+
+         
         }
     }
 }

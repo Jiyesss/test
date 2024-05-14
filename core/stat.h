@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <semaphore.h>
+#include <string.h>
 
 
 // 시스템 상태 실시간 모니터링 및 표시
@@ -52,12 +53,41 @@ double calculate_cpu_usage() {
     return loadavg * 100;
 }
 
+double calculate_memory_usage() {
+    long long total_memory = 0;
+    long long free_memory = 0;
+    char line[256];
+    FILE *fp = fopen("/proc/meminfo", "r");
+    if (fp == NULL) {
+        perror("Error opening file");
+        return -1; // 오류 처리
+    }
+    while (fgets(line, sizeof(line), fp)) {
+        if (strncmp(line, "MemTotal:", 9) == 0) {
+            sscanf(line, "MemTotal: %lld kB", &total_memory);
+        }
+        if (strncmp(line, "MemFree:", 8) == 0) {
+            sscanf(line, "MemFree: %lld kB", &free_memory);
+            break; // 필요한 정보를 모두 읽었다면 루프를 탈출
+        }
+    }
+    fclose(fp);
+    if (total_memory == 0) {
+        return -1; // 오류 처리
+    }
+
+    double used_memory = (double)(total_memory - free_memory) / total_memory;
+    return used_memory * 100; // 백분율로 반환
+}
+
+
 void os_status(struct shm_info *PTABLE) { // 시스템의 상태를 표시함
     ptable = PTABLE->data;
     ptable_sem = PTABLE->lock.sem;
 
     while (1) {
         system_d("clear");
+        
         double cpu_usage = calculate_cpu_usage(); // 실제 CPU 사용량 계산
         printf("CPU : [");
         int bar_width = get_cols() - 15;
@@ -67,11 +97,28 @@ void os_status(struct shm_info *PTABLE) { // 시스템의 상태를 표시함
             else printf(" ");
         }
         printf("] %.2f%%\n", cpu_usage);
+        printf("\n");
+        
+
+        // 메모리 사용량 표시
+        double mem_usage = calculate_memory_usage(); // 실제 메모리 사용량 계산
+        printf("MEM : [");
+        int mem_bar_width = get_cols() - 15;
+        int mem_pos = mem_bar_width * (mem_usage / 100.0);
+        for (int i = 0; i < mem_bar_width; ++i) {
+            if (i < mem_pos) printf("#");
+            else printf(" ");
+        }
+        printf("] %.2f%%\n", mem_usage);
 
         sem_wait(ptable_sem);
         iterate_ptable(ptable);
         sem_post(ptable_sem);
 
         sleep(1); // 1초 대기
-    }
 }
+    }
+
+
+
+
